@@ -31,7 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* Background grid */
         body::before {
             content: '';
             position: fixed;
@@ -67,11 +66,13 @@
             width: 100%;
             box-shadow: 0 0 60px rgba(108,99,255,0.15);
             animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .modal-box h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
-        .modal-box p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+        .modal-box > p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
 
         .modal-close-hint {
             background: rgba(108,99,255,0.1);
@@ -151,9 +152,7 @@
         .logo-text h1 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
         .logo-text .grad { background: linear-gradient(135deg, #6c63ff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .logo-badges { display: flex; gap: 0.4rem; margin-top: 2px; }
-        .badge {
-            padding: 1px 7px; border-radius: 20px; font-size: 0.7rem; font-weight: 500;
-        }
+        .badge { padding: 1px 7px; border-radius: 20px; font-size: 0.7rem; font-weight: 500; }
         .badge.purple { background: rgba(108,99,255,0.15); color: #a5b4fc; border: 1px solid rgba(108,99,255,0.2); }
         .badge.gray { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
         .badge.orange { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
@@ -170,7 +169,6 @@
         /* ===== MAIN ===== */
         main { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; position: relative; z-index: 1; }
 
-        /* District pills */
         .districts { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: center; }
         .dpill {
             padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.78rem; font-weight: 500;
@@ -178,12 +176,8 @@
             color: var(--muted); cursor: pointer; transition: all 0.2s;
         }
         .dpill:hover { border-color: var(--border-hover); color: var(--text); }
-        .dpill.active {
-            background: rgba(108,99,255,0.15); border-color: rgba(108,99,255,0.5);
-            color: #a5b4fc;
-        }
+        .dpill.active { background: rgba(108,99,255,0.15); border-color: rgba(108,99,255,0.5); color: #a5b4fc; }
 
-        /* Panel */
         .panel {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 16px; padding: 1.5rem; margin-bottom: 1.2rem;
@@ -194,7 +188,6 @@
             display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.2rem;
         }
 
-        /* Generator grid */
         .gen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
         @media (max-width: 700px) { .gen-grid { grid-template-columns: 1fr; } }
 
@@ -228,7 +221,6 @@
 
         .hint { font-size: 0.75rem; color: var(--muted2); margin-top: 0.5rem; }
 
-        /* Result area */
         .result-area {
             background: rgba(0,0,0,0.25); border-radius: 12px;
             min-height: 340px; padding: 1rem; position: relative;
@@ -245,11 +237,10 @@
 
         .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
         .result-badges { display: flex; gap: 0.4rem; }
-        .rbadge {
-            padding: 2px 8px; border-radius: 20px; font-size: 0.7rem;
-        }
+        .rbadge { padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; }
         .rbadge.green { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.2); }
-        .rbadge.gray { background: rgba(255,255,255,0.06); color: var(--muted); }
+        .rbadge.gray  { background: rgba(255,255,255,0.06); color: var(--muted); }
+        .rbadge.red   { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
 
         .result-actions { display: flex; gap: 0.3rem; }
         .raction {
@@ -259,23 +250,51 @@
         }
         .raction:hover { background: var(--surface); color: var(--text); }
 
-        .result-text {
-            flex: 1; overflow-y: auto; font-size: 0.82rem; line-height: 1.7;
-            white-space: pre-line; color: #d1d5db;
-        }
+        .result-text { flex: 1; overflow-y: auto; font-size: 0.82rem; line-height: 1.7; white-space: pre-line; color: #d1d5db; }
+        .result-text.error-text { color: #f87171; }
 
-        /* History panel */
+        /* ===== DIAGNÓSTICO ===== */
+        #diag-panel { display: none; }
+        #diag-panel.open { display: block; }
+
+        .diag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+        .diag-card { background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem; }
+        .diag-card-title { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; }
+        .diag-status { display: flex; align-items: center; gap: 0.5rem; }
+        .diag-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .diag-dot.ok   { background: var(--green);  box-shadow: 0 0 6px var(--green); }
+        .diag-dot.warn { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
+        .diag-dot.err  { background: var(--red);    box-shadow: 0 0 6px var(--red); }
+        .diag-label { font-size: 0.82rem; font-weight: 600; }
+        .diag-sub   { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+
+        .btn-test {
+            padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(108,99,255,0.3);
+            background: rgba(108,99,255,0.1); color: #a5b4fc; font-size: 0.8rem;
+            cursor: pointer; transition: all 0.2s; margin-right: 0.5rem; margin-bottom: 0.5rem;
+        }
+        .btn-test:hover { background: rgba(108,99,255,0.2); }
+        .btn-test.testing { opacity: 0.6; pointer-events: none; }
+
+        .diag-log {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.75rem; font-size: 0.75rem;
+            font-family: monospace; color: #9ca3af; max-height: 140px;
+            overflow-y: auto; margin-top: 0.75rem; line-height: 1.6;
+        }
+        .diag-log .log-ok   { color: #6ee7b7; }
+        .diag-log .log-err  { color: #f87171; }
+        .diag-log .log-info { color: #a5b4fc; }
+
+        /* ===== HISTORY ===== */
         #history-panel { display: none; }
         #history-panel.open { display: block; }
 
         .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
         .history-actions { display: flex; gap: 0.5rem; }
-        .btn-sm {
-            padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.78rem;
-            cursor: pointer; transition: all 0.2s; border: 1px solid transparent;
-        }
-        .btn-sync { background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.2); }
-        .btn-sync:hover { background: rgba(245,158,11,0.25); }
+        .btn-sm { padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        .btn-sync  { background: rgba(245,158,11,0.15); color: #fbbf24; border-color: rgba(245,158,11,0.2); }
+        .btn-sync:hover  { background: rgba(245,158,11,0.25); }
         .btn-clear { background: rgba(239,68,68,0.1); color: #f87171; border-color: rgba(239,68,68,0.2); }
         .btn-clear:hover { background: rgba(239,68,68,0.2); }
 
@@ -291,12 +310,9 @@
         .hi-meta { display: flex; gap: 0.5rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
         .hi-preview { font-size: 0.8rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .hi-actions { display: flex; gap: 0.3rem; flex-shrink: 0; }
+        .empty-history { text-align: center; padding: 2rem; color: var(--muted2); font-size: 0.85rem; }
 
-        .empty-history {
-            text-align: center; padding: 2rem; color: var(--muted2); font-size: 0.85rem;
-        }
-
-        /* Toast */
+        /* ===== TOAST ===== */
         #toast {
             position: fixed; bottom: 2rem; right: 2rem;
             background: var(--green); color: white;
@@ -307,36 +323,77 @@
         }
         #toast.show { transform: translateY(0); opacity: 1; }
 
-        /* Loading dots animation */
-        .dots::after {
-            content: ''; animation: dots 1.2s steps(4, end) infinite;
-        }
+        .dots::after { content: ''; animation: dots 1.2s steps(4, end) infinite; }
         @keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--muted2); border-radius: 4px; }
 
-        /* Market data strip */
-        .market-strip {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.75rem; margin-bottom: 1.2rem;
-        }
-        .market-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 0.85rem;
-            transition: border-color 0.2s;
-        }
+        .market-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.2rem; }
+        .market-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.85rem; transition: border-color 0.2s; }
         .market-card:hover { border-color: var(--border-hover); }
         .mc-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.2rem; }
         .mc-value { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
         .mc-value.purple { color: #a5b4fc; }
-        .mc-value.green { color: #6ee7b7; }
+        .mc-value.green  { color: #6ee7b7; }
         .mc-value.orange { color: #fbbf24; }
     </style>
 </head>
 <body>
+
+<!-- ✅ FIREBASE SDK — type="module" separado, carga primero -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, orderBy, query }
+        from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    window.firebaseDB = null;
+
+    window.initFirebase = function(apiKey, projectId, appId) {
+        try {
+            const app = initializeApp({ apiKey, authDomain: `${projectId}.firebaseapp.com`, projectId, appId });
+            window.firebaseDB = getFirestore(app);
+            const badge = document.getElementById('storage-badge');
+            if (badge) { badge.textContent = '🔥 Firebase'; }
+            return true;
+        } catch(e) {
+            console.error('Firebase init error:', e);
+            return false;
+        }
+    };
+
+    window.saveToFirebase = async function(item) {
+        if (!window.firebaseDB) return false;
+        try {
+            await addDoc(collection(window.firebaseDB, 'historial'), item);
+            return true;
+        } catch(e) {
+            console.error('Firebase save error:', e);
+            return false;
+        }
+    };
+
+    window.loadFromFirebase = async function() {
+        if (!window.firebaseDB) return null;
+        try {
+            const q = query(collection(window.firebaseDB, 'historial'), orderBy('id', 'desc'));
+            const snap = await getDocs(q);
+            return snap.docs.map(d => ({ ...d.data(), fbId: d.id }));
+        } catch(e) {
+            console.error('Firebase load error:', e);
+            return null;
+        }
+    };
+
+    // Auto-iniciar si ya hay credenciales guardadas
+    window.addEventListener('DOMContentLoaded', () => {
+        const k = localStorage.getItem('fb_apikey');
+        const p = localStorage.getItem('fb_project');
+        const a = localStorage.getItem('fb_appid');
+        if (k && p && a) window.initFirebase(k, p, a);
+    });
+</script>
 
 <!-- CONFIG MODAL -->
 <div id="config-modal">
@@ -345,14 +402,14 @@
         <p>Elige tu motor de IA y conecta tu base de datos</p>
 
         <div class="modal-close-hint">
-            💡 <strong>Puedes usar sin configurar</strong> — haz clic en <strong>"Modo Demo"</strong> para explorar todas las funciones con datos de ejemplo.
+            💡 <strong>Debes configurar al menos una API Key</strong> para que la IA genere contenido real. Sin key, el generador no funcionará.
         </div>
 
         <div>
             <span class="field-label">Motor de IA Principal</span>
             <div class="ai-selector">
                 <button class="ai-btn deepseek active" onclick="selectModalAI('deepseek')">🧠 DeepSeek</button>
-                <button class="ai-btn qwen" onclick="selectModalAI('qwen')">🌟 Qwen</button>
+                <button class="ai-btn qwen"            onclick="selectModalAI('qwen')">🌟 Qwen</button>
             </div>
             <p id="ai-desc" style="font-size:0.75rem; color: var(--muted); margin-bottom:0.8rem;">DeepSeek: Mejor razonamiento, $5 gratis al inicio</p>
         </div>
@@ -364,25 +421,27 @@
         </div>
 
         <div id="qwen-fields" style="display:none;">
-            <span class="field-label">Qwen API Key (Aliyun)</span>
+            <span class="field-label">Qwen API Key</span>
             <input type="password" class="modal-input" id="qwen-key" placeholder="sk-...">
             <a href="https://dashscope.aliyun.com" target="_blank" class="modal-link green">Obtener gratis →</a>
+            <span class="field-label">URL Proxy Cloudflare Worker <span style="color:#f87171;">(requerido)</span></span>
+            <input type="text" class="modal-input" id="qwen-proxy" placeholder="https://withered-sea-1295.promotorinmobiliario2021.workers.dev">
         </div>
 
         <hr class="modal-divider">
 
         <div>
-            <span class="field-label">🔥 Firebase Config (Opcional)</span>
-            <p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.6rem;">Si no configuras Firebase, usará memoria local</p>
-            <input type="text" class="modal-input" id="fb-apikey" placeholder="Firebase API Key">
-            <input type="text" class="modal-input" id="fb-project" placeholder="Project ID">
-            <input type="text" class="modal-input" id="fb-appid" placeholder="App ID">
-            <a href="https://console.firebase.google.com" target="_blank" class="modal-link orange">Crear proyecto Firebase gratis →</a>
+            <span class="field-label">🔥 Firebase Config <span style="color:var(--muted);">(Opcional — historial en la nube)</span></span>
+            <p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.6rem;">Sin Firebase el historial se guarda solo en este navegador</p>
+            <input type="text" class="modal-input" id="fb-apikey"  placeholder="Firebase API Key (AIzaSy...)">
+            <input type="text" class="modal-input" id="fb-project" placeholder="Project ID (cont-inmobiliario-ia)">
+            <input type="text" class="modal-input" id="fb-appid"   placeholder="App ID (1:685...:web:...)">
+            <a href="https://console.firebase.google.com" target="_blank" class="modal-link orange">Ir a Firebase Console →</a>
         </div>
 
         <div class="modal-actions">
-            <button class="btn-save" onclick="saveConfig()">Guardar Configuración</button>
-            <button class="btn-offline" onclick="closeModal()">Modo Demo</button>
+            <button class="btn-save"    onclick="saveConfig()">💾 Guardar Configuración</button>
+            <button class="btn-offline" onclick="closeModal()">Cerrar</button>
         </div>
     </div>
 </div>
@@ -396,12 +455,13 @@
                 <h1>Constructora Lima <span class="grad">ULTRA</span></h1>
                 <div class="logo-badges">
                     <span class="badge purple" id="ai-badge">DeepSeek</span>
-                    <span class="badge gray" id="storage-badge">Local</span>
+                    <span class="badge gray"   id="storage-badge">Local</span>
                 </div>
             </div>
         </div>
         <div class="header-actions">
             <button class="hbtn" onclick="switchAI()" id="switch-btn">🔄 <span id="current-ai-label">DeepSeek</span></button>
+            <button class="hbtn" onclick="toggleDiag()"    id="diag-btn">🔍 Diagnóstico</button>
             <button class="hbtn" onclick="toggleHistory()" id="history-btn">📚 Historial</button>
             <button class="hbtn" onclick="openModal()">⚙️</button>
         </div>
@@ -424,26 +484,65 @@
 
     <!-- Market strip -->
     <div class="market-strip" id="market-strip">
-        <div class="market-card">
-            <div class="mc-label">Distrito</div>
-            <div class="mc-value purple" id="mc-name">Santiago de Surco</div>
+        <div class="market-card"><div class="mc-label">Distrito</div><div class="mc-value purple" id="mc-name">Santiago de Surco</div></div>
+        <div class="market-card"><div class="mc-label">Plusvalía anual</div><div class="mc-value green" id="mc-plusvalia">8%</div></div>
+        <div class="market-card"><div class="mc-label">Precio m²</div><div class="mc-value orange" id="mc-precio">S/ 7,500</div></div>
+        <div class="market-card"><div class="mc-label">Rentabilidad</div><div class="mc-value green" id="mc-rent">5.5%</div></div>
+        <div class="market-card"><div class="mc-label">Demanda</div><div class="mc-value purple" id="mc-demanda">Familiar</div></div>
+    </div>
+
+    <!-- ===== PANEL DIAGNÓSTICO ===== -->
+    <div class="panel" id="diag-panel">
+        <div class="panel-title">🔍 Diagnóstico del Sistema</div>
+        <div class="diag-grid">
+            <div class="diag-card">
+                <div class="diag-card-title">🧠 DeepSeek API</div>
+                <div class="diag-status">
+                    <div class="diag-dot err" id="dot-deepseek"></div>
+                    <div>
+                        <div class="diag-label" id="lbl-deepseek">Sin configurar</div>
+                        <div class="diag-sub"   id="sub-deepseek">Ve a ⚙️ y agrega tu API Key</div>
+                    </div>
+                </div>
+            </div>
+            <div class="diag-card">
+                <div class="diag-card-title">🌟 Qwen API</div>
+                <div class="diag-status">
+                    <div class="diag-dot err" id="dot-qwen"></div>
+                    <div>
+                        <div class="diag-label" id="lbl-qwen">Sin configurar</div>
+                        <div class="diag-sub"   id="sub-qwen">Ve a ⚙️ y agrega tu API Key</div>
+                    </div>
+                </div>
+            </div>
+            <div class="diag-card">
+                <div class="diag-card-title">🔗 Proxy Cloudflare</div>
+                <div class="diag-status">
+                    <div class="diag-dot warn" id="dot-proxy"></div>
+                    <div>
+                        <div class="diag-label" id="lbl-proxy">Sin configurar</div>
+                        <div class="diag-sub"   id="sub-proxy">Necesario para usar Qwen</div>
+                    </div>
+                </div>
+            </div>
+            <div class="diag-card">
+                <div class="diag-card-title">🔥 Firebase</div>
+                <div class="diag-status">
+                    <div class="diag-dot err" id="dot-firebase"></div>
+                    <div>
+                        <div class="diag-label" id="lbl-firebase">Sin configurar</div>
+                        <div class="diag-sub"   id="sub-firebase">Usando localStorage</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="market-card">
-            <div class="mc-label">Plusvalía anual</div>
-            <div class="mc-value green" id="mc-plusvalia">8%</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <button class="btn-test" onclick="testDeepSeek()" id="btn-test-ds">🧪 Probar DeepSeek</button>
+            <button class="btn-test" onclick="testQwen()"     id="btn-test-qw">🧪 Probar Qwen</button>
+            <button class="btn-test" onclick="testFirebase()" id="btn-test-fb">🧪 Probar Firebase</button>
+            <button class="btn-test" onclick="refreshDiag()">🔄 Actualizar estado</button>
         </div>
-        <div class="market-card">
-            <div class="mc-label">Precio m²</div>
-            <div class="mc-value orange" id="mc-precio">S/ 7,500</div>
-        </div>
-        <div class="market-card">
-            <div class="mc-label">Rentabilidad</div>
-            <div class="mc-value green" id="mc-rent">5.5%</div>
-        </div>
-        <div class="market-card">
-            <div class="mc-label">Demanda</div>
-            <div class="mc-value purple" id="mc-demanda">Familiar</div>
-        </div>
+        <div class="diag-log" id="diag-log">// Los resultados de las pruebas aparecerán aquí...</div>
     </div>
 
     <!-- Generator Panel -->
@@ -479,7 +578,7 @@
                     </button>
                     <button class="btn-retry" onclick="retryOtherAI()" id="btn-retry" title="Intentar con otra IA" style="display:none;">🔄</button>
                 </div>
-                <p class="hint" id="ai-hint">💡 DeepSeek analiza datos de plusvalía reales para crear contenido único</p>
+                <p class="hint" id="ai-hint">💡 Configura tu API Key en ⚙️ para generar contenido real con IA</p>
             </div>
 
             <!-- Right: result -->
@@ -487,18 +586,18 @@
                 <div class="result-placeholder" id="result-placeholder">
                     <div class="icon">🤖</div>
                     <p>La IA generará contenido único aquí</p>
-                    <small>Usando datos de mercado 2024-2025</small>
+                    <small>Configura tu API Key en ⚙️ para comenzar</small>
                 </div>
                 <div id="result-content" style="display:none; flex-direction:column; flex:1;">
                     <div class="result-header">
                         <div class="result-badges">
-                            <span class="rbadge green">✨ IA</span>
-                            <span class="rbadge gray" id="result-ai-badge">DeepSeek</span>
+                            <span class="rbadge green" id="result-status-badge">✨ IA Real</span>
+                            <span class="rbadge gray"  id="result-ai-badge">DeepSeek</span>
                         </div>
                         <div class="result-actions">
                             <button class="raction" onclick="copyResult()" title="Copiar">📋</button>
                             <button class="raction" onclick="saveResult()" title="Guardar">💾</button>
-                            <button class="raction" onclick="generate()" title="Regenerar">🔄</button>
+                            <button class="raction" onclick="generate()"   title="Regenerar">🔄</button>
                         </div>
                     </div>
                     <div class="result-text" id="result-text"></div>
@@ -512,7 +611,7 @@
         <div class="history-header">
             <div class="panel-title" style="margin-bottom:0;">📚 Historial de Contenido</div>
             <div class="history-actions">
-                <button class="btn-sm btn-sync" onclick="syncFirebase()">🔄 Sync Firebase</button>
+                <button class="btn-sm btn-sync"  onclick="syncFirebase()">🔄 Sync Firebase</button>
                 <button class="btn-sm btn-clear" onclick="clearHistory()">🗑️ Limpiar</button>
             </div>
         </div>
@@ -523,29 +622,20 @@
 
 </main>
 
-<div id="toast">¡Copiado al portapapeles!</div>
+<div id="toast">✅</div>
 
+<!-- ✅ SCRIPT PRINCIPAL -->
 <script>
+
 // ===== DATA =====
 const marketData = {
-    'surco': { nombre: 'Santiago de Surco', plusvalia: '8%', precioM2: 'S/ 7,500', rentabilidad: '5.5%', demanda: 'Familiar', ventaja: '20% más barato que San Isidro, igual plusvalía' },
-    'jesus-maria': { nombre: 'Jesús María', plusvalia: '7%', precioM2: 'S/ 6,800', rentabilidad: '6.0%', demanda: 'Ejecutivos', ventaja: '13% áreas verdes, 20% más barato que San Isidro' },
-    'miraflores': { nombre: 'Miraflores', plusvalia: '12%', precioM2: 'S/ 9,200', rentabilidad: '5.0%', demanda: 'Expatriados', ventaja: 'Líder nacional, estabilidad internacional' },
-    'san-miguel': { nombre: 'San Miguel', plusvalia: '6%', precioM2: 'S/ 5,800', rentabilidad: '6.2%', demanda: 'Universitarios', ventaja: 'Mejor rentabilidad alquiler de Lima (6.2%)' },
-    'magdalena': { nombre: 'Magdalena del Mar', plusvalia: '8%', precioM2: 'S/ 6,500', rentabilidad: '5.8%', demanda: 'Surf/Costa', ventaja: '30% más barato que Miraflores, mismo mar' },
-    'lince': { nombre: 'Lince', plusvalia: '7%', precioM2: 'S/ 6,000', rentabilidad: '6.2%', demanda: 'Jóvenes', ventaja: 'Nexo San Isidro-Centro, precio accesible' },
-    'pueblo-libre': { nombre: 'Pueblo Libre', plusvalia: '6%', precioM2: 'S/ 6,200', rentabilidad: '5.8%', demanda: 'Cultural', ventaja: 'Único: patrimonio cultural + plusvalía' }
-};
-
-// Demo content templates for offline mode
-const demoContent = {
-    instagram: (d, p) => `✨ ${d.nombre} — Tu mejor inversión 2025\n\n🏠 Departamento exclusivo en una de las zonas más codiciadas de Lima.\n\n📈 Plusvalía garantizada: ${d.plusvalia} anual\n💰 Precio m²: ${d.precioM2}\n\n${p || 'Diseño moderno, acabados premium, ubicación inmejorable.'}\n\n🔑 Ventaja única: ${d.ventaja}\n\n¿Lista para invertir en tu futuro? Escríbenos 👇\n\n#${d.nombre.replace(/\s/g,'')} #InmobiliariaLima #InversionInmobiliaria #Departamentos2025`,
-    facebook: (d, p) => `🏡 OPORTUNIDAD INMOBILIARIA EN ${d.nombre.toUpperCase()}\n\nEn Constructora Lima ULTRA te presentamos una propiedad excepcional que combina calidad, ubicación y rentabilidad.\n\n${p || 'Conoce todos los detalles de esta increíble propiedad.'}\n\n✅ Plusvalía: ${d.plusvalia} anual\n✅ Precio referencial m²: ${d.precioM2}\n✅ Rentabilidad: ${d.rentabilidad}\n✅ Demanda principal: ${d.demanda}\n\n📞 Comunícate con nosotros para más información.\n🌐 www.constructoralima.com`,
-    ficha: (d, p) => `━━━━━━━━━━━━━━━━━━━━\nFICHA TÉCNICA — CONSTRUCTORA LIMA ULTRA\n━━━━━━━━━━━━━━━━━━━━\n\nDISTRITO: ${d.nombre}\nPLUSVALÍA ANUAL: ${d.plusvalia}\nPRECIO POR M²: ${d.precioM2}\nRENTABILIDAD ALQUILER: ${d.rentabilidad}\nDEMANDA OBJETIVA: ${d.demanda}\n\nDETALLES:\n${p || 'Ingresar detalles del inmueble...'}\n\nVENTAJA COMPETITIVA:\n${d.ventaja}\n\n━━━━━━━━━━━━━━━━━━━━\nConstructora Lima ULTRA | +51 999 000 111`,
-    ad: (d, p) => `🚨 ÚLTIMA OPORTUNIDAD — ${d.nombre}\n\n¿Quieres que tu dinero trabaje para ti?\n\nEl mercado inmobiliario de ${d.nombre} crece al ${d.plusvalia} anual y TÚ puedes aprovecharlo.\n\n${p || ''}\n\nPor solo ${d.precioM2}/m² tienes acceso a:\n→ Rentabilidad del ${d.rentabilidad}\n→ ${d.ventaja}\n→ Zona de alta demanda: ${d.demanda}\n\n⏰ CUPOS LIMITADOS. Contacta AHORA.`,
-    email: (d, p) => `Asunto: Inversión inteligente en ${d.nombre} — Oportunidad exclusiva\n\nEstimado/a cliente,\n\nEn Constructora Lima ULTRA queremos presentarle una oportunidad única en ${d.nombre}, uno de los distritos con mayor potencial de inversión en Lima Metropolitana.\n\nCON UNA PLUSVALÍA DEL ${d.plusvalia} ANUAL, su inversión se valoriza consistentemente año tras año.\n\n${p || ''}\n\nPuntos clave:\n• Precio por m²: ${d.precioM2}\n• Rentabilidad en alquiler: ${d.rentabilidad}\n• ${d.ventaja}\n\nLe invitamos a coordinar una visita sin compromiso.\n\nAtentamente,\nEquipo Constructora Lima ULTRA`,
-    comparativo: (d, p) => `📊 ANÁLISIS COMPARATIVO DE MERCADO\n\n${d.nombre} vs. San Isidro (referencia premium)\n\n┌─────────────────────────────────────┐\n│ ${d.nombre.padEnd(20)} │ San Isidro    │\n├─────────────────────────────────────┤\n│ Plusvalía: ${d.plusvalia.padEnd(14)} │ 9%            │\n│ Precio m²: ${d.precioM2.padEnd(13)} │ S/ 10,500     │\n│ Rentabilidad: ${d.rentabilidad.padEnd(10)} │ 4.5%          │\n└─────────────────────────────────────┘\n\nVEREDICTO:\n${d.ventaja}\n\n${p || ''}\n\nCONCLUSIÓN: ${d.nombre} ofrece un balance superior entre precio, plusvalía y rentabilidad.`,
-    script: (d, p) => `🎬 SCRIPT TIKTOK/VIDEO — ${d.nombre}\n\n[HOOK - 0-3 seg]\n"¿Sabías que en ${d.nombre} puedes ganar ${d.plusvalia} al año solo con tu depa?"\n\n[PROBLEMA - 3-10 seg]\n"El 80% de peruanos no invierte en inmuebles porque cree que es muy caro…"\n\n[SOLUCIÓN - 10-25 seg]\n"Pero en ${d.nombre}, desde ${d.precioM2}/m² puedes tener una propiedad que se valoriza sola."\n\n[DATOS - 25-35 seg]\n"${d.ventaja}"\n\n[PROPIEDAD - 35-50 seg]\n"${p || 'Mira esta joya que tenemos disponible...'}"\n\n[CTA - 50-60 seg]\n"¡Link en bio para agendar tu visita gratis!"\n\n#InversionInmobiliaria #${d.nombre.replace(/\s/g,'')} #Lima2025`
+    'surco':        { nombre: 'Santiago de Surco',   plusvalia: '8%',  precioM2: 'S/ 7,500', rentabilidad: '5.5%', demanda: 'Familiar',      ventaja: '20% más barato que San Isidro, igual plusvalía' },
+    'jesus-maria':  { nombre: 'Jesús María',          plusvalia: '7%',  precioM2: 'S/ 6,800', rentabilidad: '6.0%', demanda: 'Ejecutivos',     ventaja: '13% áreas verdes, 20% más barato que San Isidro' },
+    'miraflores':   { nombre: 'Miraflores',           plusvalia: '12%', precioM2: 'S/ 9,200', rentabilidad: '5.0%', demanda: 'Expatriados',    ventaja: 'Líder nacional, estabilidad internacional' },
+    'san-miguel':   { nombre: 'San Miguel',           plusvalia: '6%',  precioM2: 'S/ 5,800', rentabilidad: '6.2%', demanda: 'Universitarios', ventaja: 'Mejor rentabilidad alquiler de Lima (6.2%)' },
+    'magdalena':    { nombre: 'Magdalena del Mar',    plusvalia: '8%',  precioM2: 'S/ 6,500', rentabilidad: '5.8%', demanda: 'Surf/Costa',     ventaja: '30% más barato que Miraflores, mismo mar' },
+    'lince':        { nombre: 'Lince',                plusvalia: '7%',  precioM2: 'S/ 6,000', rentabilidad: '6.2%', demanda: 'Jóvenes',       ventaja: 'Nexo San Isidro-Centro, precio accesible' },
+    'pueblo-libre': { nombre: 'Pueblo Libre',         plusvalia: '6%',  precioM2: 'S/ 6,200', rentabilidad: '5.8%', demanda: 'Cultural',       ventaja: 'Único: patrimonio cultural + plusvalía' }
 };
 
 // ===== STATE =====
@@ -554,7 +644,8 @@ let state = {
     district: 'surco',
     history: JSON.parse(localStorage.getItem('cl_history') || '[]'),
     lastResult: null,
-    historyOpen: false
+    historyOpen: false,
+    diagOpen: false
 };
 
 // ===== MODAL =====
@@ -565,25 +656,66 @@ function selectModalAI(p) {
     document.querySelector('.ai-btn.deepseek').classList.toggle('active', p === 'deepseek');
     document.querySelector('.ai-btn.qwen').classList.toggle('active', p === 'qwen');
     document.getElementById('deepseek-fields').style.display = p === 'deepseek' ? 'block' : 'none';
-    document.getElementById('qwen-fields').style.display = p === 'qwen' ? 'block' : 'none';
+    document.getElementById('qwen-fields').style.display     = p === 'qwen'      ? 'block' : 'none';
     document.getElementById('ai-desc').textContent = p === 'deepseek'
         ? 'DeepSeek: Mejor razonamiento, $5 gratis al inicio'
-        : 'Qwen: Excelente español, 1M tokens gratis/mes';
+        : 'Qwen: Excelente español, tokens gratuitos/mes';
+}
+
+function openModal() {
+    // Pre-cargar valores ya guardados
+    document.getElementById('deepseek-key').value = localStorage.getItem('deepseek_key') || '';
+    document.getElementById('qwen-key').value     = localStorage.getItem('qwen_key')     || '';
+    document.getElementById('qwen-proxy').value   = localStorage.getItem('qwen_proxy')   || '';
+    document.getElementById('fb-apikey').value    = localStorage.getItem('fb_apikey')    || '';
+    document.getElementById('fb-project').value   = localStorage.getItem('fb_project')   || '';
+    document.getElementById('fb-appid').value     = localStorage.getItem('fb_appid')     || '';
+    document.getElementById('config-modal').classList.remove('hidden');
+}
+
+function closeModal() {
+    document.getElementById('config-modal').classList.add('hidden');
 }
 
 function saveConfig() {
-    const key = modalAI === 'deepseek'
-        ? document.getElementById('deepseek-key').value
-        : document.getElementById('qwen-key').value;
-    if (key) localStorage.setItem(modalAI + '_key', key);
+    // ✅ Siempre guardar AMBAS keys — independiente del AI seleccionado en el modal
+    const dsKey   = document.getElementById('deepseek-key').value.trim();
+    const qwKey   = document.getElementById('qwen-key').value.trim();
+    const qwProxy = document.getElementById('qwen-proxy').value.trim();
+
+    // Mostrar ambos campos temporalmente para leer sus valores
+    document.getElementById('deepseek-fields').style.display = 'block';
+    document.getElementById('qwen-fields').style.display     = 'block';
+
+    const dsKeyFinal   = document.getElementById('deepseek-key').value.trim();
+    const qwKeyFinal   = document.getElementById('qwen-key').value.trim();
+    const qwProxyFinal = document.getElementById('qwen-proxy').value.trim();
+
+    if (dsKeyFinal)   localStorage.setItem('deepseek_key', dsKeyFinal);
+    if (qwKeyFinal)   localStorage.setItem('qwen_key',     qwKeyFinal);
+    if (qwProxyFinal) localStorage.setItem('qwen_proxy',   qwProxyFinal);
+
+    // Restaurar visibilidad según el AI seleccionado
+    document.getElementById('deepseek-fields').style.display = modalAI === 'deepseek' ? 'block' : 'none';
+    document.getElementById('qwen-fields').style.display     = modalAI === 'qwen'      ? 'block' : 'none';
+
+    const fbKey     = document.getElementById('fb-apikey').value.trim();
+    const fbProject = document.getElementById('fb-project').value.trim();
+    const fbApp     = document.getElementById('fb-appid').value.trim();
+
+    if (fbKey && fbProject && fbApp) {
+        localStorage.setItem('fb_apikey',  fbKey);
+        localStorage.setItem('fb_project', fbProject);
+        localStorage.setItem('fb_appid',   fbApp);
+        if (window.initFirebase) window.initFirebase(fbKey, fbProject, fbApp);
+    }
+
     state.ai = modalAI;
     updateAIUI();
     closeModal();
     showToast('✅ Configuración guardada');
+    if (state.diagOpen) refreshDiag();
 }
-
-function openModal() { document.getElementById('config-modal').classList.remove('hidden'); }
-function closeModal() { document.getElementById('config-modal').classList.add('hidden'); }
 
 // ===== DISTRICT =====
 function setDistrict(id, btn) {
@@ -591,11 +723,11 @@ function setDistrict(id, btn) {
     document.querySelectorAll('.dpill').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const d = marketData[id];
-    document.getElementById('mc-name').textContent = d.nombre;
+    document.getElementById('mc-name').textContent      = d.nombre;
     document.getElementById('mc-plusvalia').textContent = d.plusvalia;
-    document.getElementById('mc-precio').textContent = d.precioM2;
-    document.getElementById('mc-rent').textContent = d.rentabilidad;
-    document.getElementById('mc-demanda').textContent = d.demanda;
+    document.getElementById('mc-precio').textContent    = d.precioM2;
+    document.getElementById('mc-rent').textContent      = d.rentabilidad;
+    document.getElementById('mc-demanda').textContent   = d.demanda;
 }
 
 // ===== AI SWITCH =====
@@ -609,128 +741,170 @@ function switchAI() {
 
 function updateAIUI() {
     const isDeep = state.ai === 'deepseek';
-    document.getElementById('ai-badge').textContent = isDeep ? 'DeepSeek' : 'Qwen';
-    document.getElementById('ai-badge').style.background = isDeep ? 'rgba(108,99,255,0.15)' : 'rgba(16,185,129,0.15)';
-    document.getElementById('ai-badge').style.color = isDeep ? '#a5b4fc' : '#6ee7b7';
+    document.getElementById('ai-badge').textContent         = isDeep ? 'DeepSeek' : 'Qwen';
+    document.getElementById('ai-badge').style.background    = isDeep ? 'rgba(108,99,255,0.15)' : 'rgba(16,185,129,0.15)';
+    document.getElementById('ai-badge').style.color         = isDeep ? '#a5b4fc' : '#6ee7b7';
     document.getElementById('current-ai-label').textContent = isDeep ? 'DeepSeek' : 'Qwen';
-    document.getElementById('ai-name').textContent = isDeep ? 'DeepSeek' : 'Qwen';
-    document.getElementById('ai-icon').textContent = isDeep ? '🧠' : '🌟';
-    document.getElementById('btn-gen').style.background = isDeep
+    document.getElementById('ai-name').textContent          = isDeep ? 'DeepSeek' : 'Qwen';
+    document.getElementById('ai-icon').textContent          = isDeep ? '🧠' : '🌟';
+    document.getElementById('btn-gen').style.background     = isDeep
         ? 'linear-gradient(135deg, #4f46e5, #7c3aed)'
         : 'linear-gradient(135deg, #059669, #10b981)';
     document.getElementById('ai-hint').textContent = isDeep
-        ? '💡 DeepSeek analiza datos de plusvalía reales para crear contenido único'
-        : '💡 Qwen genera contenido en español natural con 1M tokens gratuitos/mes';
+        ? '💡 DeepSeek: configura tu API Key en ⚙️ para generar contenido real'
+        : '💡 Qwen: requiere API Key + URL del proxy de Cloudflare en ⚙️';
 }
 
 // ===== GENERATE =====
 function generate() {
-    const type = document.getElementById('content-type').value;
-    const details = document.getElementById('property-details').value;
-    const d = marketData[state.district];
+    const apiKey = localStorage.getItem(state.ai + '_key');
 
-    // Set loading state
+    if (!apiKey) {
+        showResult(
+            `⚠️ No hay API Key configurada para ${state.ai === 'deepseek' ? 'DeepSeek' : 'Qwen'}.\n\nVe a ⚙️ Configuración y agrega tu API Key para que la IA genere contenido real.`,
+            true
+        );
+        return;
+    }
+
+    if (state.ai === 'qwen' && !localStorage.getItem('qwen_proxy')) {
+        showResult(
+            `⚠️ Qwen requiere la URL del proxy de Cloudflare.\n\nVe a ⚙️ Configuración → campo "URL Proxy Cloudflare Worker" y pega la URL de tu Worker:\nhttps://withered-sea-1295.promotorinmobiliario2021.workers.dev`,
+            true
+        );
+        return;
+    }
+
+    const type    = document.getElementById('content-type').value;
+    const details = document.getElementById('property-details').value;
+    const d       = marketData[state.district];
+
     document.getElementById('gen-text').style.display = 'none';
     document.getElementById('gen-icon').style.display = 'none';
     document.getElementById('gen-dots').style.display = 'inline';
     document.getElementById('btn-gen').classList.add('loading');
 
-    // Check for real API key
-    const apiKey = localStorage.getItem(state.ai + '_key');
-
-    if (apiKey) {
-        // Real API call
-        callRealAPI(apiKey, type, d, details).then(text => {
-            showResult(text);
-        }).catch(() => {
-            // Fallback to demo
-            setTimeout(() => showResult(generateDemo(type, d, details)), 800);
-        });
-    } else {
-        // Demo mode with slight delay for realism
-        setTimeout(() => {
-            showResult(generateDemo(type, d, details));
-        }, 1200);
-    }
+    callRealAPI(apiKey, type, d, details)
+        .then(text  => showResult(text, false))
+        .catch(err  => showResult(`❌ Error al llamar a la API:\n\n${err.message}\n\nVerifica tu API Key en ⚙️ o revisa el panel 🔍 Diagnóstico.`, true));
 }
 
 async function callRealAPI(key, type, d, details) {
-    const endpoint = state.ai === 'deepseek'
-        ? 'https://api.deepseek.com/v1/chat/completions'
-        : 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation';
+    const isDeep   = state.ai === 'deepseek';
+    const proxy    = localStorage.getItem('qwen_proxy') || '';
+    const endpoint = isDeep ? 'https://api.deepseek.com/v1/chat/completions' : proxy;
 
-    const prompt = `Eres un experto en marketing inmobiliario de Lima, Perú.
-Genera un ${type} para una propiedad en ${d.nombre}.
-Datos del mercado: Plusvalía ${d.plusvalia}, Precio m² ${d.precioM2}, Rentabilidad ${d.rentabilidad}, Demanda: ${d.demanda}.
-Ventaja clave: ${d.ventaja}.
-Detalles de la propiedad: ${details || 'Departamento moderno disponible'}.
-Tipo de contenido: ${type}. Responde directamente con el contenido, sin explicaciones adicionales.`;
+    const typeLabels = {
+        instagram:   'post de Instagram',
+        facebook:    'post de Facebook',
+        ficha:       'ficha técnica inmobiliaria',
+        ad:          'anuncio publicitario',
+        email:       'email de marketing',
+        comparativo: 'análisis comparativo vs competencia',
+        script:      'script para video o TikTok'
+    };
+
+    const prompt = `Eres un experto en marketing inmobiliario de Lima, Perú con 15 años de experiencia.
+Genera un ${typeLabels[type] || type} profesional y persuasivo para la siguiente propiedad.
+
+DATOS DEL DISTRITO (${d.nombre}):
+- Plusvalía anual: ${d.plusvalia}
+- Precio por m²: ${d.precioM2}
+- Rentabilidad en alquiler: ${d.rentabilidad}
+- Perfil de demanda: ${d.demanda}
+- Ventaja competitiva: ${d.ventaja}
+
+DETALLES DE LA PROPIEDAD:
+${details || 'No se especificaron detalles adicionales. Usa los datos del distrito para crear el contenido.'}
+
+INSTRUCCIONES:
+- Responde DIRECTAMENTE con el contenido listo para publicar
+- NO incluyas explicaciones, títulos extra ni notas al margen
+- Usa el tono y formato adecuado para ${typeLabels[type] || type}
+- El contenido debe estar en español peruano, profesional y persuasivo`;
 
     const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
         body: JSON.stringify({
-            model: state.ai === 'deepseek' ? 'deepseek-chat' : 'qwen-plus',
+            model:    isDeep ? 'deepseek-chat' : 'qwen-plus',
             messages: [{ role: 'user', content: prompt }],
-            max_tokens: 800
+            max_tokens: 900
         })
     });
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error?.message || `HTTP ${res.status} — ${res.statusText}`);
+    }
+
     const data = await res.json();
+    if (!data.choices?.[0]?.message?.content) {
+        throw new Error('La API no devolvió contenido. Respuesta: ' + JSON.stringify(data));
+    }
     return data.choices[0].message.content;
 }
 
-function generateDemo(type, d, details) {
-    const fn = demoContent[type] || demoContent.instagram;
-    return fn(d, details);
-}
+function showResult(text, isError = false) {
+    state.lastResult = isError ? null : text;
 
-function showResult(text) {
-    state.lastResult = text;
     document.getElementById('result-placeholder').style.display = 'none';
-    document.getElementById('result-content').style.display = 'flex';
-    document.getElementById('result-text').textContent = text;
-    document.getElementById('result-ai-badge').textContent = state.ai === 'deepseek' ? 'DeepSeek' : 'Qwen';
+    document.getElementById('result-content').style.display     = 'flex';
+    document.getElementById('result-text').textContent          = text;
+    document.getElementById('result-ai-badge').textContent      = state.ai === 'deepseek' ? 'DeepSeek' : 'Qwen';
 
-    // Reset button
+    const sb = document.getElementById('result-status-badge');
+    if (isError) {
+        sb.textContent = '⚠️ Error';
+        sb.className   = 'rbadge red';
+        document.getElementById('result-text').className = 'result-text error-text';
+    } else {
+        sb.textContent = '✨ IA Real';
+        sb.className   = 'rbadge green';
+        document.getElementById('result-text').className = 'result-text';
+    }
+
     document.getElementById('gen-text').style.display = 'inline';
     document.getElementById('gen-icon').style.display = 'inline';
     document.getElementById('gen-dots').style.display = 'none';
     document.getElementById('btn-gen').classList.remove('loading');
-    document.getElementById('btn-retry').style.display = 'flex';
+    document.getElementById('btn-retry').style.display = isError ? 'none' : 'flex';
 }
 
-function retryOtherAI() {
-    switchAI();
-    generate();
-}
+function retryOtherAI() { switchAI(); generate(); }
 
 // ===== COPY / SAVE =====
 function copyResult() {
-    if (!state.lastResult) return;
+    if (!state.lastResult) { showToast('⚠️ No hay contenido para copiar'); return; }
     navigator.clipboard.writeText(state.lastResult).then(() => showToast('📋 ¡Copiado al portapapeles!'));
 }
 
-function saveResult() {
-    if (!state.lastResult) return;
+async function saveResult() {
+    if (!state.lastResult) { showToast('⚠️ No hay contenido para guardar'); return; }
     const item = {
-        id: Date.now(),
-        ai: state.ai,
+        id:       Date.now(),
+        ai:       state.ai,
         district: state.district,
-        type: document.getElementById('content-type').value,
-        text: state.lastResult,
-        date: new Date().toLocaleDateString('es-PE')
+        type:     document.getElementById('content-type').value,
+        text:     state.lastResult,
+        date:     new Date().toLocaleDateString('es-PE')
     };
     state.history.unshift(item);
     localStorage.setItem('cl_history', JSON.stringify(state.history));
+
+    if (window.firebaseDB) {
+        const saved = await window.saveToFirebase(item);
+        showToast(saved ? '🔥 Guardado en Firebase!' : '💾 Guardado local (Firebase falló)');
+    } else {
+        showToast('💾 Guardado en historial local');
+    }
     renderHistory();
-    showToast('💾 Guardado en historial');
 }
 
 // ===== HISTORY =====
 function toggleHistory() {
     state.historyOpen = !state.historyOpen;
-    const panel = document.getElementById('history-panel');
-    panel.classList.toggle('open', state.historyOpen);
+    document.getElementById('history-panel').classList.toggle('open', state.historyOpen);
     document.getElementById('history-btn').classList.toggle('active', state.historyOpen);
     renderHistory();
 }
@@ -753,8 +927,8 @@ function renderHistory() {
                 <div class="hi-preview">${item.text.substring(0, 100)}...</div>
             </div>
             <div class="hi-actions">
-                <button class="raction" onclick="event.stopPropagation(); copyHistoryItem(${item.id})" title="Copiar">📋</button>
-                <button class="raction" onclick="event.stopPropagation(); deleteHistoryItem(${item.id})" title="Borrar">🗑️</button>
+                <button class="raction" onclick="event.stopPropagation();copyHistoryItem(${item.id})"   title="Copiar">📋</button>
+                <button class="raction" onclick="event.stopPropagation();deleteHistoryItem(${item.id})" title="Borrar">🗑️</button>
             </div>
         </div>
     `).join('');
@@ -762,13 +936,7 @@ function renderHistory() {
 
 function loadHistoryItem(id) {
     const item = state.history.find(h => h.id === id);
-    if (!item) return;
-    showResult(item.text);
-    document.querySelectorAll('.dpill').forEach(b => {
-        if (b.textContent.toLowerCase().includes(item.district.replace('-', ' '))) {
-            b.click();
-        }
-    });
+    if (item) showResult(item.text, false);
 }
 
 function copyHistoryItem(id) {
@@ -790,8 +958,143 @@ function clearHistory() {
     showToast('🗑️ Historial limpiado');
 }
 
-function syncFirebase() {
-    showToast('🔥 Firebase no configurado — usando almacenamiento local');
+async function syncFirebase() {
+    if (!window.firebaseDB) { showToast('⚠️ Firebase no configurado — ve a ⚙️'); return; }
+    showToast('🔄 Sincronizando...');
+    const items = await window.loadFromFirebase();
+    if (items && items.length) {
+        state.history = items;
+        localStorage.setItem('cl_history', JSON.stringify(state.history));
+        renderHistory();
+        showToast(`✅ ${items.length} items sincronizados`);
+    } else {
+        showToast('📭 No hay datos en Firebase aún');
+    }
+}
+
+// ===== DIAGNÓSTICO =====
+function toggleDiag() {
+    state.diagOpen = !state.diagOpen;
+    document.getElementById('diag-panel').classList.toggle('open', state.diagOpen);
+    document.getElementById('diag-btn').classList.toggle('active', state.diagOpen);
+    if (state.diagOpen) refreshDiag();
+}
+
+function setDot(id, status, label, sub) {
+    document.getElementById('dot-' + id).className = 'diag-dot ' + status;
+    document.getElementById('lbl-' + id).textContent = label;
+    document.getElementById('sub-' + id).textContent = sub;
+}
+
+function refreshDiag() {
+    const dsKey   = localStorage.getItem('deepseek_key');
+    const qwKey   = localStorage.getItem('qwen_key');
+    const qwProxy = localStorage.getItem('qwen_proxy');
+    const fbKey   = localStorage.getItem('fb_apikey');
+
+    setDot('deepseek',
+        dsKey ? 'ok'  : 'err',
+        dsKey ? 'API Key guardada ✅' : 'Sin configurar',
+        dsKey ? 'sk-···' + dsKey.slice(-4) : 'Ve a ⚙️ y agrega tu DeepSeek key'
+    );
+    setDot('qwen',
+        qwKey ? 'ok'  : 'err',
+        qwKey ? 'API Key guardada ✅' : 'Sin configurar',
+        qwKey ? 'sk-···' + qwKey.slice(-4)  : 'Ve a ⚙️ y agrega tu Qwen key'
+    );
+    setDot('proxy',
+        qwProxy ? 'ok'  : 'warn',
+        qwProxy ? 'Proxy configurado ✅' : 'Sin proxy',
+        qwProxy ? qwProxy.replace('https://','').substring(0,38) + '…' : 'Requerido para usar Qwen'
+    );
+    setDot('firebase',
+        window.firebaseDB ? 'ok'  : (fbKey ? 'warn' : 'err'),
+        window.firebaseDB ? '🔥 Conectado ✅'        : (fbKey ? 'Credenciales guardadas' : 'Sin configurar'),
+        window.firebaseDB ? 'Historial en la nube'  : (fbKey ? 'Recarga para conectar'  : 'Usando localStorage')
+    );
+}
+
+function diagLog(msg, type = 'info') {
+    const log = document.getElementById('diag-log');
+    const now = new Date().toLocaleTimeString('es-PE');
+    log.innerHTML += `<div class="log-${type}">[${now}] ${msg}</div>`;
+    log.scrollTop  = log.scrollHeight;
+}
+
+async function testDeepSeek() {
+    const key = localStorage.getItem('deepseek_key');
+    if (!key) { diagLog('❌ DeepSeek: No hay API Key. Ve a ⚙️', 'err'); return; }
+    const btn = document.getElementById('btn-test-ds');
+    btn.classList.add('testing'); btn.textContent = '⏳ Probando...';
+    diagLog('🧪 Probando DeepSeek API...', 'info');
+    try {
+        const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+            body: JSON.stringify({ model: 'deepseek-chat', messages: [{ role: 'user', content: 'Responde solo: OK' }], max_tokens: 5 })
+        });
+        if (res.ok) {
+            diagLog('✅ DeepSeek: Conexión exitosa — API Key válida y funcionando', 'ok');
+            setDot('deepseek', 'ok', 'Verificado ✅', 'Conexión probada correctamente');
+        } else {
+            const err = await res.json().catch(() => ({}));
+            diagLog(`❌ DeepSeek: HTTP ${res.status} — ${err.error?.message || res.statusText}`, 'err');
+        }
+    } catch(e) {
+        diagLog('❌ DeepSeek: Error de red — ' + e.message, 'err');
+    }
+    btn.classList.remove('testing'); btn.textContent = '🧪 Probar DeepSeek';
+}
+
+async function testQwen() {
+    const key   = localStorage.getItem('qwen_key');
+    const proxy = localStorage.getItem('qwen_proxy');
+    if (!key)   { diagLog('❌ Qwen: No hay API Key. Ve a ⚙️', 'err'); return; }
+    if (!proxy) { diagLog('❌ Qwen: No hay URL de proxy. Ve a ⚙️', 'err'); return; }
+    const btn = document.getElementById('btn-test-qw');
+    btn.classList.add('testing'); btn.textContent = '⏳ Probando...';
+    diagLog('🧪 Probando Qwen via proxy Cloudflare...', 'info');
+    try {
+        const res = await fetch(proxy, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+            body: JSON.stringify({ model: 'qwen-plus', messages: [{ role: 'user', content: 'Responde solo: OK' }], max_tokens: 5 })
+        });
+        if (res.ok) {
+            diagLog('✅ Qwen: Conexión exitosa — proxy y API Key funcionando correctamente', 'ok');
+            setDot('qwen',  'ok', 'Verificado ✅', 'Conexión probada correctamente');
+            setDot('proxy', 'ok', 'Proxy activo ✅', 'Cloudflare Worker respondiendo OK');
+        } else {
+            const err = await res.json().catch(() => ({}));
+            diagLog(`❌ Qwen: HTTP ${res.status} — ${err.error?.message || res.statusText}`, 'err');
+        }
+    } catch(e) {
+        diagLog('❌ Qwen/Proxy: Error — ' + e.message, 'err');
+    }
+    btn.classList.remove('testing'); btn.textContent = '🧪 Probar Qwen';
+}
+
+async function testFirebase() {
+    const btn = document.getElementById('btn-test-fb');
+    btn.classList.add('testing'); btn.textContent = '⏳ Probando...';
+    if (!window.firebaseDB) {
+        diagLog('❌ Firebase: No está inicializado. Configura credenciales en ⚙️', 'err');
+        btn.classList.remove('testing'); btn.textContent = '🧪 Probar Firebase';
+        return;
+    }
+    diagLog('🧪 Probando Firebase Firestore (escritura de prueba)...', 'info');
+    try {
+        const saved = await window.saveToFirebase({ id: Date.now(), test: true, msg: 'ping' });
+        if (saved) {
+            diagLog('✅ Firebase: Escritura exitosa — Firestore funcionando correctamente', 'ok');
+            setDot('firebase', 'ok', 'Verificado ✅', 'Lectura/escritura OK');
+        } else {
+            diagLog('❌ Firebase: Falló la escritura — revisa reglas de Firestore', 'err');
+        }
+    } catch(e) {
+        diagLog('❌ Firebase: ' + e.message, 'err');
+    }
+    btn.classList.remove('testing'); btn.textContent = '🧪 Probar Firebase';
 }
 
 // ===== TOAST =====
@@ -799,15 +1102,17 @@ function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
     renderHistory();
-    // Auto-hide modal if already configured
-    if (localStorage.getItem('deepseek_key') || localStorage.getItem('qwen_key')) {
-        closeModal();
+    const hasKey = localStorage.getItem('deepseek_key') || localStorage.getItem('qwen_key');
+    if (!hasKey) {
+        document.getElementById('config-modal').classList.remove('hidden');
+    } else {
+        document.getElementById('config-modal').classList.add('hidden');
     }
 });
 </script>
