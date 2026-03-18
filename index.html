@@ -1143,44 +1143,57 @@ function showToast(msg) {
     setTimeout(() => t.classList.remove('show'), 2800);
 }
 
+// ===== FIREBASE HARDCODEADO =====
+// Las credenciales de Firebase son públicas (están en el HTML de todas formas)
+// Esto permite que CUALQUIER usuario se conecte sin configurar nada
+const FB_CONFIG = {
+    apiKey:    'AIzaSyAJs3FMVZzvEs3wetxvSt5StgcFk0ipR4c',
+    projectId: 'cont-inmobiliario-ia',
+    appId:     '1:685144379610:web:89570e2e29c953ce3bd5e3'
+};
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Iniciar Firebase con credenciales locales si existen
-    const fbKey     = localStorage.getItem('fb_apikey');
-    const fbProject = localStorage.getItem('fb_project');
-    const fbApp     = localStorage.getItem('fb_appid');
-    if (fbKey && fbProject && fbApp && window.initFirebase) {
-        window.initFirebase(fbKey, fbProject, fbApp);
+    renderHistory();
+    updateAIUI();
 
-        // 2. Cargar config compartida desde Firestore
-        //    (esperar un poco a que Firebase termine de iniciar)
-        setTimeout(async () => {
-            if (window.loadSharedConfig) {
-                const cfg = await window.loadSharedConfig();
-                if (cfg) {
-                    // Solo aplicar si el usuario no tiene su propia key guardada
-                    if (cfg.deepseek_key && !localStorage.getItem('deepseek_key')) localStorage.setItem('deepseek_key', cfg.deepseek_key);
-                    if (cfg.qwen_key     && !localStorage.getItem('qwen_key'))     localStorage.setItem('qwen_key',     cfg.qwen_key);
-                    if (cfg.qwen_proxy   && !localStorage.getItem('qwen_proxy'))   localStorage.setItem('qwen_proxy',   cfg.qwen_proxy);
-                    // Activar Qwen si está disponible
-                    if (cfg.qwen_key) { state.ai = 'qwen'; updateAIUI(); }
-                    if (state.diagOpen) refreshDiag();
-                    console.log('✅ Config compartida aplicada');
+    // 1. Conectar Firebase automáticamente para TODOS los usuarios
+    if (window.initFirebase) {
+        // Guardar en localStorage también para que el modal los muestre si se abre
+        localStorage.setItem('fb_apikey',  FB_CONFIG.apiKey);
+        localStorage.setItem('fb_project', FB_CONFIG.projectId);
+        localStorage.setItem('fb_appid',   FB_CONFIG.appId);
+        window.initFirebase(FB_CONFIG.apiKey, FB_CONFIG.projectId, FB_CONFIG.appId);
+    }
+
+    // 2. Cargar keys de IA desde Firestore (las puso el admin al guardar config)
+    setTimeout(async () => {
+        if (window.loadSharedConfig) {
+            const cfg = await window.loadSharedConfig();
+            if (cfg) {
+                if (cfg.deepseek_key) localStorage.setItem('deepseek_key', cfg.deepseek_key);
+                if (cfg.qwen_key)     localStorage.setItem('qwen_key',     cfg.qwen_key);
+                if (cfg.qwen_proxy)   localStorage.setItem('qwen_proxy',   cfg.qwen_proxy);
+                // Activar la IA disponible
+                if (cfg.qwen_key)     { state.ai = 'qwen';     updateAIUI(); }
+                if (cfg.deepseek_key) { state.ai = 'deepseek'; updateAIUI(); }
+                // Si hay ambas, preferir qwen
+                if (cfg.qwen_key && cfg.deepseek_key) { state.ai = 'qwen'; updateAIUI(); }
+                showToast('✅ App lista — IA cargada');
+                if (state.diagOpen) refreshDiag();
+                console.log('✅ Config de IA cargada desde Firebase');
+            } else {
+                // No hay config en Firestore — mostrar modal para que el admin configure
+                const hasKey = localStorage.getItem('deepseek_key') || localStorage.getItem('qwen_key');
+                if (!hasKey) {
+                    document.getElementById('config-modal').classList.remove('hidden');
                 }
             }
-        }, 1500);
-    }
+        }
+    }, 1500);
 
-    // 3. Mostrar modal solo si no hay NINGUNA credencial guardada
-    const hasKey = localStorage.getItem('deepseek_key') || localStorage.getItem('qwen_key');
-    if (!hasKey && !fbKey) {
-        document.getElementById('config-modal').classList.remove('hidden');
-    } else {
-        document.getElementById('config-modal').classList.add('hidden');
-    }
-
-    updateAIUI();
-    renderHistory();
+    // Ocultar modal mientras carga
+    document.getElementById('config-modal').classList.add('hidden');
 });
 </script>
 </body>
