@@ -1,157 +1,126 @@
-/* responsive.css */
+/* ==============================================
+   responsive.css — Constructora Lima ULTRA
+   Importado desde index.html
+   ============================================== */
 
-/* =========================================
-   1. TABLETS (max 1024px)
-   ========================================= */
+/* ===== RESPONSIVE TABLET (max 1024px) ===== */
 @media (max-width: 1024px) {
     main { padding: 1.5rem 1rem; }
     .market-strip { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* =========================================
-   2. MÓVILES (max 768px) - SOLUCIÓN DEFINITIVA
-   ========================================= */
+/* ===== RESPONSIVE MÓVIL (max 768px) ===== */
 @media (max-width: 768px) {
-    
-    /* --- HEADER COMPACTO --- */
-    .header-inner {
-        padding: 0.6rem 0.8rem;
-        gap: 0.5rem;
-        flex-wrap: nowrap;
-    }
-    .logo-text h1 { font-size: 0.95rem; white-space: nowrap; }
-    .logo-icon { width: 32px; height: 32px; font-size: 0.75rem; }
-    .logo-badges { display: none; } /* Ocultar badges para ahorrar espacio */
 
-    /* Botones Header: Solo Iconos */
-    .header-actions { gap: 0.3rem; }
-    .hbtn {
-        padding: 0.45rem;
-        font-size: 0; /* Oculta texto "Diagnóstico", "Historial" */
-        border-radius: 8px;
-        min-width: 36px;
-        justify-content: center;
-    }
+    /* Header compacto */
+    .header-inner { padding: 0.6rem 0.85rem; }
+    .logo-text h1 { font-size: 0.9rem; }
+    .logo-icon { width: 30px; height: 30px; font-size: 0.7rem; }
+    .logo-badges { display: none; }
+
+    /* Botones header — solo emojis */
+    .header-actions { gap: 0.25rem; }
+    .hbtn { padding: 0.45rem 0.55rem; min-width: 36px; justify-content: center; }
     .hbtn span { display: none; }
-    .hbtn { font-size: 1.2rem; line-height: 1; }
+    #switch-btn #current-ai-label { display: none; }
 
-    /* --- DISTRICTOS (Scroll Horizontal) --- */
+    /* Main */
+    main { padding: 0.85rem 0.7rem; }
+
+    /* Distritos scroll horizontal */
     .districts {
         flex-wrap: nowrap;
         overflow-x: auto;
         justify-content: flex-start;
         padding-bottom: 0.5rem;
-        gap: 0.5rem;
+        gap: 0.4rem;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        margin-left: -0.8rem; /* Sangría negativa para ocupar todo el ancho */
-        margin-right: -0.8rem;
-        padding-left: 0.8rem;
-        padding-right: 0.8rem;
+        margin-left: -0.7rem;
+        margin-right: -0.7rem;
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
     }
     .districts::-webkit-scrollbar { display: none; }
-    .dpill { white-space: nowrap; flex-shrink: 0; padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+    .dpill { white-space: nowrap; flex-shrink: 0; padding: 0.35rem 0.75rem; font-size: 0.72rem; }
 
-    /* --- MARKET STRIP (2 Columnas) --- */
-    .market-strip {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    .market-card { padding: 0.6rem; border-radius: 10px; }
-    .mc-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    .mc-value { font-size: 0.95rem; }
+    /* Market strip 2 columnas */
+    .market-strip { grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.85rem; }
+    .market-card { padding: 0.65rem; border-radius: 10px; }
+    .mc-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.4px; }
+    .mc-value { font-size: 0.9rem; }
 
-    /* --- PANEL PRINCIPAL --- */
-    main { padding: 1rem 0.8rem; }
-    .panel { padding: 1rem; border-radius: 12px; margin-bottom: 1rem; }
-    .panel-title { font-size: 1rem; margin-bottom: 1rem; }
+    /* Panels */
+    .panel { padding: 0.9rem; border-radius: 12px; margin-bottom: 0.85rem; }
+    .panel-title { font-size: 0.95rem; margin-bottom: 0.85rem; }
 
-    /* === CLAVE: CAMBIO DE ESTRUCTURA A 1 COLUMNA === */
-    .gen-grid {
-        display: flex;
-        flex-direction: column; /* Apila todo verticalmente */
-        gap: 1rem;
-    }
+    /* Generator — UNA COLUMNA */
+    .gen-grid { grid-template-columns: 1fr; gap: 0.85rem; }
 
-    /* Inputs grandes para dedos */
-    select, textarea {
-        font-size: 16px; /* Evita zoom automático en iPhone */
-        padding: 0.7rem;
-        border-radius: 8px;
-        width: 100%;
-    }
-    textarea { rows: 4; resize: vertical; }
-    .field-label { font-size: 0.8rem; margin-bottom: 0.3rem; display: block; }
+    /* Inputs — font-size 16px evita zoom en iPhone */
+    select, textarea { font-size: 16px; padding: 0.65rem 0.8rem; border-radius: 8px; }
+    .field-group { margin-bottom: 0.75rem; }
+    .field-label { font-size: 0.75rem; }
 
-    /* Botón Generar Full Width */
-    .gen-actions {
-        display: flex;
-        flex-direction: column; /* Botones uno debajo del otro si es necesario */
-        gap: 0.5rem;
-    }
-    .btn-generate {
-        width: 100%;
-        padding: 0.9rem;
-        font-size: 1rem;
-        font-weight: 700;
-        justify-content: center;
-    }
-    .btn-retry {
-        width: 100%; /* Retry también ancho completo */
-        padding: 0.8rem;
-        display: none !important; /* Oculto por defecto en móvil para limpiar */
-    }
-    .hint { font-size: 0.75rem; text-align: center; margin-top: 0.5rem; }
+    /* Botón generar ancho completo */
+    .gen-actions { flex-direction: row; gap: 0.5rem; }
+    .btn-generate { padding: 0.85rem; font-size: 0.9rem; }
+    .btn-retry { padding: 0.85rem 0.9rem; }
+    .hint { font-size: 0.7rem; text-align: center; }
 
-    /* RESULTADO AL PIE (Debajo del botón) */
-    .result-area {
-        width: 100%;
-        min-height: 250px;
-        padding: 0.8rem;
-        margin-top: 0.5rem; /* Separación del botón */
-        order: 3; /* Asegura que vaya al final visualmente */
-    }
+    /* Resultado */
+    .result-area { min-height: 220px; padding: 0.8rem; }
+    .result-text { font-size: 0.82rem; line-height: 1.6; }
+    .result-header { flex-wrap: wrap; gap: 0.4rem; }
+    .result-actions { width: 100%; justify-content: flex-end; }
+    .rbadge { font-size: 0.65rem; padding: 2px 6px; }
+    .raction { padding: 0.3rem 0.5rem; font-size: 0.8rem; }
 
-    .result-header {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-    .result-actions { width: 100%; justify-content: flex-end; margin-top: 0.3rem; }
-    .raction { padding: 0.4rem 0.6rem; font-size: 0.8rem; }
-    .result-text { font-size: 0.9rem; line-height: 1.6; }
-
-    /* --- DIAGNÓSTICO --- */
+    /* Diagnóstico */
     .diag-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-    .diag-card { padding: 0.6rem; }
-    .btn-test { width: 100%; margin-right: 0; margin-bottom: 0.4rem; font-size: 0.75rem; padding: 0.4rem; }
-    .diag-log { font-size: 0.65rem; max-height: 100px; }
-    @media (max-width: 380px) { .diag-grid { grid-template-columns: 1fr; } }
+    .diag-card { padding: 0.6rem; border-radius: 8px; }
+    .diag-card-title { font-size: 0.68rem; }
+    .diag-label { font-size: 0.72rem; }
+    .diag-sub { font-size: 0.62rem; }
+    .diag-dot { width: 7px; height: 7px; }
+    .btn-test { font-size: 0.7rem; padding: 0.35rem 0.6rem; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+    .diag-log { font-size: 0.68rem; max-height: 110px; }
 
-    /* --- HISTORIAL --- */
-    .history-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-    .history-actions { width: 100%; justify-content: space-between; }
-    .btn-sm { flex: 1; text-align: center; font-size: 0.75rem; padding: 0.4rem; }
-    .history-item { padding: 0.7rem; flex-direction: column; gap: 0.5rem; }
+    /* Historial */
+    .history-header { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+    .history-actions { width: 100%; justify-content: flex-end; gap: 0.4rem; }
+    .btn-sm { font-size: 0.72rem; padding: 0.35rem 0.65rem; }
+    .history-list { max-height: 280px; }
+    .history-item { padding: 0.65rem; flex-direction: column; gap: 0.4rem; }
     .hi-actions { width: 100%; justify-content: flex-end; }
+    .hi-preview { font-size: 0.72rem; }
 
-    /* --- MODAL --- */
-    .modal-box { padding: 1.2rem; margin: 1rem; max-height: 90vh; border-radius: 16px; }
-    .modal-box h3 { font-size: 1.2rem; text-align: center; }
-    .ai-selector { flex-direction: column; gap: 0.5rem; }
-    .ai-btn { padding: 0.8rem; font-size: 0.9rem; }
-    .modal-input { font-size: 16px; padding: 0.7rem; }
-    .modal-actions { flex-direction: column; gap: 0.6rem; }
-    .btn-save, .btn-offline { width: 100%; padding: 0.8rem; }
+    /* Modal */
+    .modal-box { padding: 1.2rem; border-radius: 16px; max-height: 92vh; }
+    .modal-box h3 { font-size: 1.1rem; }
+    .modal-box > p { font-size: 0.78rem; margin-bottom: 0.85rem; }
+    .modal-close-hint { font-size: 0.75rem; padding: 0.6rem 0.8rem; margin-bottom: 0.85rem; }
+    .ai-selector { gap: 0.5rem; }
+    .ai-btn { font-size: 0.82rem; padding: 0.65rem; }
+    .modal-input { font-size: 16px; padding: 0.6rem 0.8rem; margin-bottom: 0.5rem; }
+    .modal-link { font-size: 0.72rem; }
+    .modal-actions { flex-direction: column; gap: 0.5rem; }
+    .btn-save, .btn-offline { width: 100%; padding: 0.8rem; font-size: 0.88rem; }
 
-    /* --- TOAST --- */
-    #toast { left: 1rem; right: 1rem; bottom: 1rem; width: auto; text-align: center; justify-content: center; }
+    /* Toast */
+    #toast { left: 0.75rem; right: 0.75rem; bottom: 1rem; text-align: center; font-size: 0.8rem; padding: 0.65rem 1rem; }
 }
 
-/* =========================================
-   3. CORRECCIONES GLOBALES
-   ========================================= */
-img, svg, .icon { max-width: 100%; height: auto; display: block; }
-.market-strip, .gen-grid, .diag-grid, .history-list { box-sizing: border-box; }
-.districts, .history-list, .result-text, .diag-log { will-change: scroll-position; }
+/* ===== MÓVIL PEQUEÑO (max 400px) ===== */
+@media (max-width: 400px) {
+    .header-inner { padding: 0.5rem 0.6rem; }
+    .logo-text h1 { font-size: 0.82rem; }
+    main { padding: 0.65rem 0.55rem; }
+    .market-strip { grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .mc-value { font-size: 0.82rem; }
+    .diag-grid { grid-template-columns: 1fr; }
+    .panel { padding: 0.75rem; }
+    .result-area { min-height: 180px; }
+    .modal-box { padding: 1rem; margin: 0.5rem; }
+    .ai-selector { flex-direction: column; }
+}
