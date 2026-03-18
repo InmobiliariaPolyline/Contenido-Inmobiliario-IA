@@ -1,99 +1,133 @@
 /* responsive.css */
 
-/* ===== TABLETS (Pantallas medianas) ===== */
+/* =========================================
+   1. TABLETS (Pantallas medianas)
+   ========================================= */
 @media (max-width: 1024px) {
-    .gen-grid {
-        grid-template-columns: 1fr; /* Una sola columna */
-        gap: 1.5rem;
+    main {
+        padding: 1.5rem 1rem;
     }
     
-    .result-area {
-        min-height: 300px;
+    /* Ajuste suave del mercado */
+    .market-strip {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6rem;
     }
 }
 
-/* ===== CELULARES (Pantallas pequeñas) ===== */
+/* =========================================
+   2. MÓVILES (Pantallas < 768px)
+   ========================================= */
 @media (max-width: 768px) {
-    /* Ajustes generales */
-    body {
-        font-size: 14px;
-    }
-
-    /* Header compacto */
+    
+    /* --- HEADER OPTIMIZADO --- */
     .header-inner {
-        padding: 0.8rem 1rem;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
+        padding: 0.6rem 0.8rem;
+        gap: 0.5rem;
+        /* Evita que el header se rompa en dos líneas feas */
+        flex-wrap: nowrap; 
     }
 
-    .logo {
-        justify-content: center;
-        margin-bottom: 0.5rem;
+    .logo-text h1 {
+        font-size: 0.95rem; /* Texto más compacto */
+        white-space: nowrap; /* Evita saltos de línea */
     }
 
-    .header-actions {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .hbtn {
-        padding: 0.4rem 0.6rem;
+    .logo-icon {
+        width: 32px;
+        height: 32px;
         font-size: 0.75rem;
     }
 
-    .hbtn span {
-        display: none; /* Ocultar texto de botones, dejar solo iconos */
-    }
-    
-    .hbtn::after {
-        content: attr(title); /* Opcional: mostrar título al pasar el mouse */
+    /* Ocultar badges pequeños en móvil para limpiar vista */
+    .logo-badges {
+        display: none;
     }
 
-    /* Distritos en scroll horizontal o más compactos */
-    .districts {
-        justify-content: flex-start;
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
+    /* Botones del Header: Solo Iconos (Modo Compacto) */
+    .header-actions {
+        gap: 0.3rem;
     }
+
+    .hbtn {
+        padding: 0.45rem; /* Cuadrado perfecto para tocar */
+        font-size: 0;     /* Ocultar texto */
+        border-radius: 8px;
+        min-width: 36px;  /* Tamaño mínimo táctil */
+        justify-content: center;
+    }
+
+    /* Forzar que solo se vea el emoji/icono dentro del botón */
+    .hbtn span {
+        display: none;
+    }
+    
+    /* Asegurar que el emoji se centre bien */
+    .hbtn::before {
+        content: ''; /* Limpiar pseudo-elementos si existen */
+    }
+    .hbtn {
+        font-size: 1.2rem; /* El emoji heredará este tamaño */
+        line-height: 1;
+    }
+
+    /* --- DISTRICTOS (Scroll Horizontal Suave) --- */
+    .districts {
+        flex-wrap: nowrap; /* No bajar a otra línea */
+        overflow-x: auto;  /* Permitir scroll horizontal */
+        justify-content: flex-start;
+        padding-bottom: 0.5rem;
+        gap: 0.5rem;
+        -webkit-overflow-scrolling: touch; /* Scroll nativo iOS */
+        scrollbar-width: none; /* Ocultar barra Firefox */
+        margin-left: -1rem; /* Compensar padding del main para efecto full-width */
+        margin-right: -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
     .districts::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+        display: none; /* Ocultar barra Chrome/Safari */
     }
 
     .dpill {
         white-space: nowrap;
+        flex-shrink: 0; /* No encogerse */
+        padding: 0.4rem 0.8rem;
         font-size: 0.75rem;
-        padding: 0.35rem 0.8rem;
     }
 
-    /* Market Strip: Grid de 2 columnas en móvil */
+    /* --- MARKET STRIP (Grid 2 Columnas) --- */
     .market-strip {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr; /* 2 columnas exactas */
         gap: 0.5rem;
+        margin-bottom: 1rem;
     }
-    
+
     .market-card {
         padding: 0.6rem;
+        border-radius: 10px;
     }
-    
+
     .mc-label {
         font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-    
+
     .mc-value {
         font-size: 0.95rem;
     }
 
-    /* Paneles principales */
+    /* --- PANEL PRINCIPAL Y GENERADOR --- */
     main {
-        padding: 1rem;
+        padding: 1rem 0.8rem;
     }
 
     .panel {
         padding: 1rem;
         border-radius: 12px;
+        margin-bottom: 1rem;
     }
 
     .panel-title {
@@ -101,39 +135,56 @@
         margin-bottom: 1rem;
     }
 
-    /* Generador */
-    .field-group {
-        margin-bottom: 0.8rem;
+    /* Grid de una sola columna para el generador */
+    .gen-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 
-    select, textarea, .modal-input {
-        font-size: 16px; /* Evita zoom automático en iPhone */
-        padding: 0.8rem;
+    /* Inputs táctiles grandes */
+    select, textarea {
+        font-size: 16px; /* CRÍTICO: Evita zoom automático en iPhone al escribir */
+        padding: 0.7rem;
+        border-radius: 8px;
     }
 
     textarea {
         rows: 4;
+        resize: vertical;
     }
 
+    .field-label {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    /* Botón Generar Full Width */
     .btn-generate {
-        padding: 1rem;
+        width: 100%;
+        padding: 0.9rem;
         font-size: 1rem;
-        width: 100%; /* Botón ancho completo */
+        font-weight: 700;
+        justify-content: center;
     }
 
     .btn-retry {
-        display: none !important; /* Ocultar botón retry en móvil para ahorrar espacio */
+        display: none !important; /* Ocultar retry en móvil para ahorrar espacio */
     }
 
-    /* Resultados */
+    .hint {
+        font-size: 0.75rem;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    /* --- RESULTADOS --- */
     .result-area {
         min-height: 250px;
         padding: 0.8rem;
     }
 
     .result-header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
         gap: 0.5rem;
         margin-bottom: 0.5rem;
     }
@@ -141,25 +192,52 @@
     .result-actions {
         width: 100%;
         justify-content: flex-end;
+        margin-top: 0.3rem;
     }
 
     .raction {
         padding: 0.4rem 0.6rem;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
-    /* Diagnóstico */
+    .result-text {
+        font-size: 0.9rem; /* Texto más legible en móvil */
+        line-height: 1.6;
+    }
+
+    /* --- DIAGNÓSTICO --- */
     .diag-grid {
-        grid-template-columns: 1fr; /* Una columna */
+        grid-template-columns: 1fr 1fr; /* 2 columnas en móvil */
+        gap: 0.5rem;
+    }
+
+    .diag-card {
+        padding: 0.6rem;
+    }
+
+    .diag-card-title {
+        font-size: 0.7rem;
     }
 
     .btn-test {
-        width: 100%;
+        width: 100%; /* Botones de prueba ancho completo */
         margin-right: 0;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
+        font-size: 0.75rem;
+        padding: 0.4rem;
     }
 
-    /* Historial */
+    .diag-log {
+        font-size: 0.65rem;
+        max-height: 100px;
+    }
+
+    /* En pantallas muy pequeñas, diagnóstico a 1 columna */
+    @media (max-width: 380px) {
+        .diag-grid { grid-template-columns: 1fr; }
+    }
+
+    /* --- HISTORIAL --- */
     .history-header {
         flex-direction: column;
         align-items: flex-start;
@@ -168,15 +246,19 @@
 
     .history-actions {
         width: 100%;
+        justify-content: space-between;
     }
 
     .btn-sm {
         flex: 1;
         text-align: center;
+        font-size: 0.75rem;
+        padding: 0.4rem;
     }
 
     .history-item {
-        flex-direction: column;
+        padding: 0.7rem;
+        flex-direction: column; /* Apilar contenido en móvil */
         gap: 0.5rem;
     }
 
@@ -185,46 +267,74 @@
         justify-content: flex-end;
     }
 
-    /* Modal en móvil */
+    /* --- MODAL --- */
     .modal-box {
-        padding: 1.5rem;
+        padding: 1.2rem;
         margin: 1rem;
-        max-height: 85vh;
+        max-height: 90vh;
+        border-radius: 16px;
+    }
+
+    .modal-box h3 {
+        font-size: 1.2rem;
+        text-align: center;
     }
 
     .ai-selector {
-        flex-direction: column;
+        flex-direction: column; /* Botones de IA uno encima del otro */
+        gap: 0.5rem;
+    }
+
+    .ai-btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .modal-input {
+        font-size: 16px; /* Evitar zoom en inputs del modal */
+        padding: 0.7rem;
     }
 
     .modal-actions {
         flex-direction: column;
+        gap: 0.6rem;
     }
 
     .btn-save, .btn-offline {
         width: 100%;
+        padding: 0.8rem;
     }
 
-    /* Toast notification */
+    /* --- TOAST --- */
     #toast {
         left: 1rem;
         right: 1rem;
         bottom: 1rem;
+        width: auto;
         text-align: center;
         justify-content: center;
+        font-size: 0.85rem;
+        padding: 0.7rem 1rem;
     }
 }
 
-/* ===== CELULARES MUY PEQUEÑOS (< 380px) ===== */
-@media (max-width: 380px) {
-    .logo-text h1 {
-        font-size: 0.95rem;
-    }
-    
-    .market-strip {
-        grid-template-columns: 1fr; /* Una sola columna si es muy estrecho */
-    }
-    
-    .badge {
-        display: none; /* Ocultar badges extra pequeños */
-    }
+/* =========================================
+   3. CORRECCIÓN DE ERRORES VISUALES
+   ========================================= */
+
+/* Evitar que las imágenes o iconos se dupliquen o desborden */
+img, svg, .icon {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Asegurar que el grid no cree espacios extraños */
+.market-strip, .gen-grid, .diag-grid, .history-list {
+    box-sizing: border-box;
+}
+
+/* Mejorar rendimiento en scroll */
+.districts, .history-list, .result-text, .diag-log {
+    will-change: scroll-position;
 }
