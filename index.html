@@ -638,14 +638,45 @@ const marketData = {
     'pueblo-libre': { nombre: 'Pueblo Libre',         plusvalia: '6%',  precioM2: 'S/ 6,200', rentabilidad: '5.8%', demanda: 'Cultural',       ventaja: 'Único: patrimonio cultural + plusvalía' }
 };
 
+// ===== CREDENCIALES PRE-CONFIGURADAS =====
+// Estas credenciales están disponibles para todos los usuarios
 // ===== STATE =====
 let state = {
-    ai: 'deepseek',
+    ai: 'qwen',
     district: 'surco',
     history: JSON.parse(localStorage.getItem('cl_history') || '[]'),
     lastResult: null,
     historyOpen: false,
     diagOpen: false
+};
+
+// ===== CONFIG COMPARTIDA VIA FIREBASE =====
+// Al guardar en ⚙️ → se escribe en Firestore → todos los usuarios la reciben al cargar
+window.saveSharedConfig = async function(cfg) {
+    if (!window.firebaseDB) return false;
+    try {
+        const { setDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+        await setDoc(doc(window.firebaseDB, 'config', 'main'), {
+            ...cfg,
+            updatedAt: new Date().toISOString()
+        });
+        return true;
+    } catch(e) {
+        console.error('Error guardando config compartida:', e);
+        return false;
+    }
+};
+
+window.loadSharedConfig = async function() {
+    if (!window.firebaseDB) return null;
+    try {
+        const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+        const snap = await getDoc(doc(window.firebaseDB, 'config', 'main'));
+        return snap.exists() ? snap.data() : null;
+    } catch(e) {
+        console.error('Error cargando config compartida:', e);
+        return null;
+    }
 };
 
 // ===== MODAL =====
@@ -677,43 +708,50 @@ function closeModal() {
     document.getElementById('config-modal').classList.add('hidden');
 }
 
-function saveConfig() {
-    // ✅ Siempre guardar AMBAS keys — independiente del AI seleccionado en el modal
-    const dsKey   = document.getElementById('deepseek-key').value.trim();
-    const qwKey   = document.getElementById('qwen-key').value.trim();
-    const qwProxy = document.getElementById('qwen-proxy').value.trim();
-
-    // Mostrar ambos campos temporalmente para leer sus valores
+async function saveConfig() {
+    // Leer ambos campos siempre (independiente del tab activo)
     document.getElementById('deepseek-fields').style.display = 'block';
     document.getElementById('qwen-fields').style.display     = 'block';
 
-    const dsKeyFinal   = document.getElementById('deepseek-key').value.trim();
-    const qwKeyFinal   = document.getElementById('qwen-key').value.trim();
-    const qwProxyFinal = document.getElementById('qwen-proxy').value.trim();
+    const dsKey    = document.getElementById('deepseek-key').value.trim();
+    const qwKey    = document.getElementById('qwen-key').value.trim();
+    const qwProxy  = document.getElementById('qwen-proxy').value.trim();
+    const fbKey    = document.getElementById('fb-apikey').value.trim();
+    const fbProject= document.getElementById('fb-project').value.trim();
+    const fbApp    = document.getElementById('fb-appid').value.trim();
 
-    if (dsKeyFinal)   localStorage.setItem('deepseek_key', dsKeyFinal);
-    if (qwKeyFinal)   localStorage.setItem('qwen_key',     qwKeyFinal);
-    if (qwProxyFinal) localStorage.setItem('qwen_proxy',   qwProxyFinal);
-
-    // Restaurar visibilidad según el AI seleccionado
+    // Restaurar visibilidad
     document.getElementById('deepseek-fields').style.display = modalAI === 'deepseek' ? 'block' : 'none';
     document.getElementById('qwen-fields').style.display     = modalAI === 'qwen'      ? 'block' : 'none';
 
-    const fbKey     = document.getElementById('fb-apikey').value.trim();
-    const fbProject = document.getElementById('fb-project').value.trim();
-    const fbApp     = document.getElementById('fb-appid').value.trim();
+    // Guardar en localStorage local
+    if (dsKey)    localStorage.setItem('deepseek_key', dsKey);
+    if (qwKey)    localStorage.setItem('qwen_key',     qwKey);
+    if (qwProxy)  localStorage.setItem('qwen_proxy',   qwProxy);
+    if (fbKey)    localStorage.setItem('fb_apikey',    fbKey);
+    if (fbProject)localStorage.setItem('fb_project',   fbProject);
+    if (fbApp)    localStorage.setItem('fb_appid',     fbApp);
 
-    if (fbKey && fbProject && fbApp) {
-        localStorage.setItem('fb_apikey',  fbKey);
-        localStorage.setItem('fb_project', fbProject);
-        localStorage.setItem('fb_appid',   fbApp);
-        if (window.initFirebase) window.initFirebase(fbKey, fbProject, fbApp);
+    // Inicializar Firebase si se dieron credenciales
+    if (fbKey && fbProject && fbApp && window.initFirebase) {
+        window.initFirebase(fbKey, fbProject, fbApp);
+    }
+
+    // ✅ Guardar en Firestore para que TODOS los usuarios reciban la config
+    const configToShare = {};
+    if (dsKey)   configToShare.deepseek_key = dsKey;
+    if (qwKey)   configToShare.qwen_key     = qwKey;
+    if (qwProxy) configToShare.qwen_proxy   = qwProxy;
+
+    let sharedOk = false;
+    if (Object.keys(configToShare).length > 0 && window.saveSharedConfig) {
+        sharedOk = await window.saveSharedConfig(configToShare);
     }
 
     state.ai = modalAI;
     updateAIUI();
     closeModal();
-    showToast('✅ Configuración guardada');
+    showToast(sharedOk ? '✅ Configuración guardada y compartida para todos 🔥' : '✅ Configuración guardada localmente');
     if (state.diagOpen) refreshDiag();
 }
 
@@ -1106,14 +1144,43 @@ function showToast(msg) {
 }
 
 // ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-    renderHistory();
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Iniciar Firebase con credenciales locales si existen
+    const fbKey     = localStorage.getItem('fb_apikey');
+    const fbProject = localStorage.getItem('fb_project');
+    const fbApp     = localStorage.getItem('fb_appid');
+    if (fbKey && fbProject && fbApp && window.initFirebase) {
+        window.initFirebase(fbKey, fbProject, fbApp);
+
+        // 2. Cargar config compartida desde Firestore
+        //    (esperar un poco a que Firebase termine de iniciar)
+        setTimeout(async () => {
+            if (window.loadSharedConfig) {
+                const cfg = await window.loadSharedConfig();
+                if (cfg) {
+                    // Solo aplicar si el usuario no tiene su propia key guardada
+                    if (cfg.deepseek_key && !localStorage.getItem('deepseek_key')) localStorage.setItem('deepseek_key', cfg.deepseek_key);
+                    if (cfg.qwen_key     && !localStorage.getItem('qwen_key'))     localStorage.setItem('qwen_key',     cfg.qwen_key);
+                    if (cfg.qwen_proxy   && !localStorage.getItem('qwen_proxy'))   localStorage.setItem('qwen_proxy',   cfg.qwen_proxy);
+                    // Activar Qwen si está disponible
+                    if (cfg.qwen_key) { state.ai = 'qwen'; updateAIUI(); }
+                    if (state.diagOpen) refreshDiag();
+                    console.log('✅ Config compartida aplicada');
+                }
+            }
+        }, 1500);
+    }
+
+    // 3. Mostrar modal solo si no hay NINGUNA credencial guardada
     const hasKey = localStorage.getItem('deepseek_key') || localStorage.getItem('qwen_key');
-    if (!hasKey) {
+    if (!hasKey && !fbKey) {
         document.getElementById('config-modal').classList.remove('hidden');
     } else {
         document.getElementById('config-modal').classList.add('hidden');
     }
+
+    updateAIUI();
+    renderHistory();
 });
 </script>
 </body>
