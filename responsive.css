@@ -1,0 +1,132 @@
+
+/* ===== RESPONSIVE TABLET (max 1024px) ===== */
+@media (max-width: 1024px) {
+    main { padding: 1.5rem 1rem; }
+    .market-strip { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===== RESPONSIVE MÓVIL (max 768px) ===== */
+@media (max-width: 768px) {
+
+    /* Header */
+    .header-inner { padding: 0.65rem 0.85rem; gap: 0.5rem; }
+    .logo-text h1 { font-size: 0.9rem; }
+    .logo-icon { width: 30px; height: 30px; font-size: 0.7rem; }
+    .logo-badges { display: none; }
+
+    /* Header actions — iconos solamente */
+    .header-actions { gap: 0.25rem; }
+    .hbtn { padding: 0.4rem 0.55rem; font-size: 0; border-radius: 8px; }
+    .hbtn::before { font-size: 1rem; }
+    #switch-btn::before   { content: '🔄'; }
+    #diag-btn::before     { content: '🔍'; }
+    #history-btn::before  { content: '📚'; }
+    /* Botón ⚙️ ya es solo emoji, no necesita cambio */
+
+    /* Main */
+    main { padding: 0.85rem 0.65rem; }
+
+    .districts {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 0.5rem;
+        gap: 0.4rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        mask-image: linear-gradient(to right, transparent 0%, black 3%, black 95%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 95%, transparent 100%);
+    }
+    .districts::-webkit-scrollbar { display: none; }
+    .dpill { white-space: nowrap; flex-shrink: 0; padding: 0.35rem 0.75rem; font-size: 0.72rem; }
+
+    /* Market strip — 2x3 grid */
+    .market-strip { grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.85rem; }
+    .market-card { padding: 0.7rem; border-radius: 10px; }
+    .mc-label { font-size: 0.65rem; }
+    .mc-value { font-size: 0.9rem; }
+
+    /* Panels */
+    .panel { padding: 0.85rem; border-radius: 12px; margin-bottom: 0.85rem; }
+    .panel-title { font-size: 0.9rem; margin-bottom: 0.85rem; }
+
+    /* Generator — una columna */
+    .gen-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+
+    /* Selects y textarea */
+    select, textarea { font-size: 0.8rem; padding: 0.6rem 0.75rem; }
+    textarea { rows: 4; }
+    .field-group { margin-bottom: 0.75rem; }
+    .field-label { font-size: 0.75rem; }
+
+    /* Botón generar */
+    .btn-generate { padding: 0.75rem; font-size: 0.85rem; border-radius: 9px; }
+    .btn-retry { padding: 0.75rem 0.85rem; }
+    .hint { font-size: 0.7rem; }
+
+    /* Result area */
+    .result-area { min-height: 220px; padding: 0.75rem; }
+    .result-text { font-size: 0.78rem; line-height: 1.6; }
+    .rbadge { font-size: 0.65rem; padding: 1px 6px; }
+    .raction { padding: 0.25rem 0.45rem; font-size: 0.75rem; }
+
+    /* Diagnóstico */
+    .diag-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .diag-card { padding: 0.65rem; border-radius: 8px; }
+    .diag-card-title { font-size: 0.68rem; }
+    .diag-label { font-size: 0.72rem; }
+    .diag-sub   { font-size: 0.62rem; }
+    .diag-dot   { width: 7px; height: 7px; }
+    .btn-test   { font-size: 0.7rem; padding: 0.35rem 0.6rem; margin-right: 0.35rem; margin-bottom: 0.35rem; }
+    .diag-log   { font-size: 0.7rem; max-height: 110px; }
+
+    /* History */
+    .history-header { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+    .history-actions { width: 100%; display: flex; justify-content: flex-end; }
+    .btn-sm { font-size: 0.72rem; padding: 0.35rem 0.65rem; }
+    .history-list { max-height: 300px; }
+    .history-item { padding: 0.65rem; gap: 0.5rem; }
+    .hi-preview { font-size: 0.72rem; }
+    .hi-meta { gap: 0.3rem; }
+
+    /* Modal */
+    .modal-box {
+        padding: 1.25rem;
+        border-radius: 16px;
+        max-height: 95vh;
+    }
+    .modal-box h3 { font-size: 1.15rem; }
+    .modal-box > p { font-size: 0.8rem; margin-bottom: 1rem; }
+    .modal-close-hint { font-size: 0.76rem; padding: 0.6rem 0.85rem; margin-bottom: 1rem; }
+    .ai-btn { font-size: 0.82rem; padding: 0.6rem; }
+    .modal-input { font-size: 0.8rem; padding: 0.55rem 0.8rem; }
+    .modal-actions { flex-direction: column; gap: 0.5rem; }
+    .btn-save, .btn-offline { padding: 0.75rem; font-size: 0.88rem; }
+    .modal-link { font-size: 0.72rem; }
+    .field-label { font-size: 0.76rem; }
+
+    /* Toast full width */
+    #toast {
+        bottom: 1rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        text-align: center;
+        font-size: 0.8rem;
+        padding: 0.65rem 1rem;
+    }
+}
+
+/* ===== RESPONSIVE MÓVIL PEQUEÑO (max 400px) ===== */
+@media (max-width: 400px) {
+    .header-inner { padding: 0.55rem 0.65rem; }
+    .logo-text h1 { font-size: 0.82rem; }
+    main { padding: 0.65rem 0.5rem; }
+    .market-strip { grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .mc-value { font-size: 0.82rem; }
+    .diag-grid { grid-template-columns: 1fr; }
+    .gen-grid { gap: 0.65rem; }
+    .panel { padding: 0.75rem; }
+    .result-area { min-height: 180px; }
+    .modal-box { padding: 1rem; }
+    .ai-selector { gap: 0.5rem; }
+}
